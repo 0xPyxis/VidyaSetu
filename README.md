@@ -25,8 +25,6 @@ Contributors can start by checking issues labeled:
 - `bug`
 - `enhancement`
 
-Use `gssoc:approved` only when the project mentors/admins approve the contribution under the official GSSoC process.
-
 ## Features
 
 - NCERT class, subject, and chapter browsing
@@ -274,8 +272,6 @@ Maintainers can use these labels to make contribution discovery easier:
 - `documentation`
 - `bug`
 - `enhancement`
-
-Only apply `gssoc:approved` when a contribution is approved through the official GSSoC workflow.
 
 ## License
 
