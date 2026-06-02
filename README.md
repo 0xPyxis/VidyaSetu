@@ -1,11 +1,31 @@
-###Live : https://vidya-setu-pi.vercel.app/
-
-
 # VidyaSetu
+
+![GSSoC 2026](https://img.shields.io/badge/GSSoC-2026-blueviolet)
+![Open Source](https://img.shields.io/badge/Open%20Source-Contributions%20Welcome-brightgreen)
+![Next.js](https://img.shields.io/badge/Next.js-16-black)
+![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue)
 
 AI-powered adaptive study and assessment platform for NCERT-based learning.
 
 VidyaSetu helps students move from passive studying to structured practice with chapter-wise study material, quiz workflows, subjective answer evaluation, and analytics.
+
+- Live app: https://vidya-setu-pi.vercel.app/
+- Codebase docs: `/docs`
+
+## GSSoC 2026
+
+This project is part of GirlScript Summer of Code 2026.
+
+Contributors can start by checking issues labeled:
+
+- `good first issue`
+- `beginner friendly`
+- `gssoc`
+- `documentation`
+- `bug`
+- `enhancement`
+
+Use `gssoc:approved` only when the project mentors/admins approve the contribution under the official GSSoC process.
 
 ## Features
 
@@ -225,6 +245,11 @@ pnpm db:studio
 
 ## Contributing
 
+Before contributing, read:
+
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- Codebase docs at `/docs`
+
 1. Fork the repository.
 2. Clone your fork.
 3. Create `.env` from `.env.example`.
@@ -235,7 +260,22 @@ pnpm db:studio
 
 Do not request or use production database access for local development.
 
-Please read the [Code of Conduct](CODE_OF_CONDUCT.md) before participating in project spaces.
+### Recommended Repository Labels
+
+Maintainers can use these labels to make contribution discovery easier:
+
+- `gssoc`
+- `gssoc:approved`
+- `gssoc:level1`
+- `gssoc:level2`
+- `gssoc:level3`
+- `good first issue`
+- `beginner friendly`
+- `documentation`
+- `bug`
+- `enhancement`
+
+Only apply `gssoc:approved` when a contribution is approved through the official GSSoC workflow.
 
 ## License
 
