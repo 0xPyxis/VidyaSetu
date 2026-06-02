@@ -48,15 +48,104 @@ cp .env.example .env
 
 Never commit `.env`. Use your own database credentials and API keys.
 
+### Environment Variables
+
+#### `DATABASE_URL`
+
+This is the PostgreSQL connection string used by the app at runtime.
+
+If you use Docker, keep the default value from `.env.example`:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/vidyasetu"
+```
+
+If you use Supabase, Neon, Railway, or another hosted PostgreSQL provider, copy the PostgreSQL connection string from that provider and paste it here.
+
+#### `DIRECT_URL`
+
+This is the direct PostgreSQL connection string used by Prisma migrations.
+
+If you use Docker, keep the default value from `.env.example`:
+
+```env
+DIRECT_URL="postgresql://postgres:postgres@localhost:5432/vidyasetu"
+```
+
+If you use Supabase, use the direct database connection URL, not only the pooled URL. Prisma migrations work best with a direct connection.
+
+#### `JWT_SECRET`
+
+This is used to sign authentication tokens.
+
+For local development, generate a random value:
+
+```bash
+openssl rand -base64 32
+```
+
+Then paste it into `.env`:
+
+```env
+JWT_SECRET="your-generated-secret"
+```
+
+#### `NEXTAUTH_URL`
+
+For local development, use:
+
+```env
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+For deployment, use your deployed app URL.
+
+#### `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
+
+These are needed only for Google login.
+
+To get them:
+
+1. Go to Google Cloud Console.
+2. Create or select a project.
+3. Configure the OAuth consent screen.
+4. Create OAuth credentials for a web application.
+5. Add this authorized redirect URI for local development:
+
+```text
+http://localhost:3000/api/auth/callback/google
+```
+
+6. Copy the generated client ID and client secret into `.env`:
+
+```env
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+```
+
+If you are not working on authentication, you can leave these empty for local development.
+
+#### Cloudinary Variables
+
+Cloudinary is optional for now and is not required for the main contributor setup.
+
+Only add these if you are working on upload or media-related features:
+
+```env
+CLOUDINARY_CLOUD_NAME="your-cloudinary-cloud-name"
+CLOUDINARY_API_KEY="your-cloudinary-api-key"
+CLOUDINARY_API_SECRET="your-cloudinary-api-secret"
+```
+
+You can get these values from your own Cloudinary dashboard after creating a free Cloudinary account.
+
 ## Database Setup
 
 ### Option A: Hosted PostgreSQL
 
 Use this option if you do not have Docker installed.
 
-
-- Prisma ORM
-- JWT Authentication
+Create a free PostgreSQL database using Supabase, Neon, Railway, or another PostgreSQL provider. Then update these values in `.env`:
 
 ```env
 DATABASE_URL="your-hosted-postgresql-url"
