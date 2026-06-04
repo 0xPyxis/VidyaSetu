@@ -34,7 +34,7 @@ function ProgressChart({
           <p className="text-xs text-muted-foreground">{description}</p>
         )}
         <div
-          className="flex items-center justify-center rounded-lg border border-dashed text-sm text-muted-foreground"
+          className="flex items-center justify-center rounded-xl bg-muted/50 text-sm text-muted-foreground"
           style={{ height }}
         >
           No data available yet

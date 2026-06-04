@@ -213,7 +213,7 @@ function ProgressDashboard({
               {displayData.achievements?.map((achievement, i) => (
                 <span
                   key={i}
-                  className="inline-flex items-center gap-1 rounded-full border bg-secondary/50 px-3 py-1 text-xs font-medium"
+                  className="inline-flex items-center gap-1 rounded-md bg-muted px-3 py-1 text-xs font-medium"
                 >
                   <Award className="size-3" />
                   {achievement}
@@ -230,7 +230,7 @@ function ProgressDashboard({
             <CardTitle>Recent Chapters</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col divide-y">
+            <div className="flex flex-col divide-y divide-border/50">
               {displayData.recentChapters?.map((ch, i) => (
                 <div
                   key={i}
