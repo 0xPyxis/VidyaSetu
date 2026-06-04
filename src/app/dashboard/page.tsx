@@ -263,42 +263,6 @@ export default function DashboardPage() {
 
         <ProgressDashboard />
       </div>
-
-        {/* <table>
-          <thead>
-            <tr>
-              <td>subject</td>
-              <td>date</td>
-              <td>score</td>
-              <td>trend</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <p>Introduction to Thermodynamics</p>{' '}
-                <p>Module 4: Entropy Dynamics</p>
-              </td>
-              <td>Oct 24, 2023</td>
-              <td>92%</td>
-              <td>
-                <svg
-                  width="18"
-                  height="10"
-                  viewBox="0 0 18 10"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.707697 10L0 9.29232L6.30385 2.93846L10.3039 6.93846L16.3308 1.00001H13V0H18V5.00001H17V1.7077L10.3039 8.40386L6.30385 4.40386L0.707697 10Z"
-                    fill="#16A34A"
-                  />
-                </svg>
-              </td>
-            </tr>
-          </tbody>
-        </table> */}
-      </div>
     </div>
   );
 }
