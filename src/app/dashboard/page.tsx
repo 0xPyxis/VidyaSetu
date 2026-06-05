@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ProgressDashboard } from '@/components/ProgressDashboard';
 import { StreakWidget } from '@/components/StreakWidget';
+import { StreakDashboard } from '@/components/StreakDashboard';
 
 interface UserProps {
   name: string;
@@ -254,6 +255,12 @@ export default function DashboardPage() {
             />
           )}
         </div>
+      </div>
+
+      {/* streak tracking */}
+
+      <div className='flex flex-col gap-4 w-full'>
+        <StreakDashboard />
       </div>
 
       {/* learning progress */}
