@@ -23,17 +23,6 @@ export class QuizRepository {
     });
   }
 
-  static findNoteById(noteId: string, userId: string) {
-    return prisma.note.findFirst({
-      where: {
-        id: noteId,
-        userId,
-        deletedAt: null,
-      },
-      select: { id: true },
-    });
-  }
-
   static findQuestionsByChapter(chapterId: string, take: number) {
     return prisma.question.findMany({
       where: {
@@ -95,7 +84,6 @@ export class QuizRepository {
   static findQuizById(quizId: string) {
     return prisma.quiz.findUnique({
       where: { id: quizId },
-      include: { sessions: true },
     });
   }
 
@@ -106,9 +94,6 @@ export class QuizRepository {
   static findSessionById(sessionId: string) {
     return prisma.quizSession.findUnique({
       where: { id: sessionId },
-      include: {
-        quiz: true,
-      },
     });
   }
 
@@ -147,32 +132,21 @@ export class QuizRepository {
     });
   }
 
-  static findQuestionById(questionId: string) {
-    return prisma.question.findUnique({
-      where: { id: questionId },
-      select: {
-        id: true,
-        type: true,
-        difficulty: true,
-      },
+  static findQuestionsByIds(questionIds: string[]) {
+    return prisma.question.findMany({
+      where: { id: { in: questionIds } },
+      select: { id: true },
     });
   }
 
-  static findOptionById(optionId: string) {
-    return prisma.option.findUnique({
-      where: { id: optionId },
+  static findOptionsByIds(optionIds: string[]) {
+    return prisma.option.findMany({
+      where: { id: { in: optionIds } },
       select: {
         id: true,
         questionId: true,
         isCorrect: true,
       },
-    });
-  }
-
-  static findQuestionsByIds(questionIds: string[]) {
-    return prisma.question.findMany({
-      where: { id: { in: questionIds } },
-      select: { id: true, difficulty: true },
     });
   }
 

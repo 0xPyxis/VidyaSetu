@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 
+import { SetCookies } from '@/lib/auth/cookies';
+
 import { QuizServices } from './quiz.service';
 import { QuizApiError } from './quiz.types';
 import {
@@ -15,6 +17,16 @@ const parseJsonBody = async (request: Request) => {
   } catch {
     throw new QuizApiError('Invalid JSON request body', 400);
   }
+};
+
+const getUserIdFromJwt = async () => {
+  const token = await SetCookies.verifyCookies();
+
+  if (!token) {
+    throw new QuizApiError('Authentication required', 401);
+  }
+
+  return token.sub;
 };
 
 const handleQuizError = (error: unknown) => {
@@ -84,8 +96,9 @@ export class QuizControllers {
 
   static async submit(request: Request) {
     try {
+      const userId = await getUserIdFromJwt();
       const body = await parseJsonBody(request);
-      const input = submitQuizSchema.parse(body);
+      const input = submitQuizSchema.parse({ ...body, userId });
       const result = await QuizServices.submitQuiz(input);
 
       return NextResponse.json({
@@ -99,12 +112,12 @@ export class QuizControllers {
 
   static async getSession(request: Request) {
     try {
+      const userId = await getUserIdFromJwt();
       const url = new URL(request.url);
       const sessionId = url.searchParams.get('sessionId');
-      const userId = url.searchParams.get('userId');
 
-      if (!sessionId || !userId) {
-        throw new QuizApiError('sessionId and userId are required', 400);
+      if (!sessionId) {
+        throw new QuizApiError('sessionId is required', 400);
       }
 
       const result = await QuizServices.getSession(sessionId, userId);
@@ -117,13 +130,8 @@ export class QuizControllers {
 
   static async getHistory(request: Request) {
     try {
+      const userId = await getUserIdFromJwt();
       const url = new URL(request.url);
-      const userId = url.searchParams.get('userId');
-
-      if (!userId) {
-        throw new QuizApiError('userId is required', 400);
-      }
-
       const page = Math.max(1, Number(url.searchParams.get('page')) || 1);
       const limit = Math.max(1, Number(url.searchParams.get('limit')) || 10);
 
