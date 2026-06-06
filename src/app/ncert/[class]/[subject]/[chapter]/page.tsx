@@ -1,10 +1,10 @@
-'use client';
-
+﻿'use client';
 import ChapterContent, {
   type ChapterContentData,
 } from '@/components/ChapterContent';
 import ReadingProgressBar from '@/components/ReadingProgressBar';
 import { ChapterPageSkeleton } from '@/components/Skeletons';
+import { saveReadingProgress } from '@/components/ResumeCard';
 import authFetch from '@/lib/auth/authFetch';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
@@ -20,7 +20,6 @@ export default function NcertChapterPage() {
     subject: string;
     chapter: string;
   }>();
-
   const [chapter, setChapter] = useState<ChapterProps | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,15 +27,14 @@ export default function NcertChapterPage() {
   const getChapter = useCallback(async () => {
     setIsLoading(true);
     setError(null);
-
     try {
       const url = `/api/ncert/chapter?chapter=${params.chapter}`;
-
       const res = await authFetch({
         url,
-        options: { method: 'GET' },
+        options: {
+          method: 'GET',
+        },
       });
-
       if (res.status !== 200 || !res.message) {
         setChapter(null);
         setError(
@@ -46,16 +44,21 @@ export default function NcertChapterPage() {
         );
         return;
       }
-
       const chapterData = res.message as ChapterProps;
       setChapter(chapterData);
+      // Save reading progress to localStorage
+      saveReadingProgress({
+        chapterName: chapterData.title,
+        chapterUrl: `/ncert/${params.class}/${params.subject}/${params.chapter}`,
+        className: params.class,
+      });
     } catch {
       setChapter(null);
       setError('Unable to load this chapter. Please try again later.');
     } finally {
       setIsLoading(false);
     }
-  }, [params.chapter]);
+  }, [params.chapter, params.class, params.subject]);
 
   useEffect(() => {
     getChapter();
