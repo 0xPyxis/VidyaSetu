@@ -5,6 +5,11 @@ import { WeakTopicAnalyticsError } from './analytics.types';
 import { weakTopicsQuerySchema } from './analytics.validator';
 import { SetCookies } from '@/lib/auth/cookies';
 
+async function getAuthenticatedUserId() {
+  const token = await SetCookies.verifyCookies();
+  return token?.sub ?? null;
+}
+
 const handleAnalyticsError = (error: unknown) => {
   if (error instanceof ZodError) {
     return NextResponse.json(
@@ -27,30 +32,46 @@ const handleAnalyticsError = (error: unknown) => {
 export default class AnalyticsController {
   static async getAnalytics(_req: Request) {
     try {
-      const access_token = await SetCookies.verifyCookies();
+      const userId = await getAuthenticatedUserId();
 
-      if (!access_token) {
+      if (!userId) {
         return NextResponse.json(
           { message: 'Authentication required' },
           { status: 401 }
         );
       }
 
-      const res = await AnalyticsService.analytics(access_token.sub);
+      const res = await AnalyticsService.analytics(userId);
 
       return NextResponse.json({ success: true, data: res }, { status: 200 });
     } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : 'Internal server error';
+      return handleAnalyticsError(error);
+    }
+  }
 
-      return NextResponse.json({ success: false, message }, { status: 500 });
+  static async getStreakData(_req: Request) {
+    try {
+      const userId = await getAuthenticatedUserId();
+
+      if (!userId) {
+        return NextResponse.json(
+          { message: 'Authentication required' },
+          { status: 401 }
+        );
+      }
+
+      const res = await AnalyticsService.getStreakData(userId);
+
+      return NextResponse.json({ success: true, data: res }, { status: 200 });
+    } catch (error: unknown) {
+      return handleAnalyticsError(error);
     }
   }
 
   static async getWeakTopics(req: Request) {
     try {
-      const access_token = await SetCookies.verifyCookies();
-      if (!access_token) {
+      const userId = await getAuthenticatedUserId();
+      if (!userId) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
       }
 
@@ -59,7 +80,7 @@ export default class AnalyticsController {
       const params = weakTopicsQuerySchema.parse(rawParams);
 
       const result = await AnalyticsService.getWeakTopics(
-        access_token.sub,
+        userId,
         params
       );
 

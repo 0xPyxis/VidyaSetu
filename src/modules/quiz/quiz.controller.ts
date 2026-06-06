@@ -60,8 +60,15 @@ const handleQuizError = (error: unknown) => {
 export class QuizControllers {
   static async create(request: Request) {
     try {
+      const tokenPayload = await SetCookies.verifyCookies();
+
+      if (!tokenPayload) {
+        throw new QuizApiError('Authentication required', 401);
+      }
+
       const body = await parseJsonBody(request);
-      const input = createQuizSchema.parse(body);
+      const input = createQuizSchema.parse({ ...body, userId: tokenPayload.sub });
+
       const result = await QuizServices.createQuiz(input);
 
       return NextResponse.json(
@@ -78,8 +85,14 @@ export class QuizControllers {
 
   static async start(request: Request) {
     try {
+      const tokenPayload = await SetCookies.verifyCookies();
+
+      if (!tokenPayload) {
+        throw new QuizApiError('Authentication required', 401);
+      }
+
       const body = await parseJsonBody(request);
-      const input = startQuizSchema.parse(body);
+      const input = startQuizSchema.parse({ ...body, userId: tokenPayload.sub });
       const result = await QuizServices.startQuiz(input);
 
       return NextResponse.json(

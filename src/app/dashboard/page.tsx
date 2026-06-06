@@ -4,6 +4,7 @@ import authFetch from '@/lib/auth/authFetch';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ProgressDashboard } from '@/components/ProgressDashboard';
+import { StreakDashboard } from '@/components/StreakDashboard';
 
 interface UserProps {
   name: string;
@@ -42,7 +43,7 @@ export default function DashboardPage() {
       name: 'Upload Notes',
       brief: 'Convert handwritten pages into structured study guides.',
       action: 'sync',
-      href: `/`,
+      href: `/notes/upload`,
       icon: (
         <svg
           width="18"
@@ -252,6 +253,12 @@ export default function DashboardPage() {
             );
           })}
         </div>
+      </div>
+
+      {/* streak tracking */}
+
+      <div className='flex flex-col gap-4 w-full'>
+        <StreakDashboard />
       </div>
 
       {/* learning progress */}
