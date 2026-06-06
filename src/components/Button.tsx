@@ -3,14 +3,14 @@ import React from 'react';
 
 function Button({
   text,
-  action = '',
+  action,
   color = '',
   textCol = '',
   additional = '',
   hover = '',
 }: {
   text: string;
-  action: any;
+  action: () => void;
   color: string;
   textCol: string;
   additional: string;
