@@ -4,6 +4,7 @@ import ChapterContent, {
   type ChapterContentData,
 } from '@/components/ChapterContent';
 import { ChapterPageSkeleton } from '@/components/Skeletons';
+import { saveReadingProgress } from '@/components/ResumeCard';
 import authFetch from '@/lib/auth/authFetch';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
@@ -48,14 +49,23 @@ export default function NcertChapterPage() {
         return;
       }
 
-      setChapter(res.message);
+      const chapterData = res.message as ChapterProps;
+      setChapter(chapterData);
+
+      // Save reading progress to localStorage
+      saveReadingProgress({
+        chapterName: chapterData.title,
+        chapterUrl: `/ncert/${params.class}/${params.subject}/${params.chapter}`,
+        subjectName: chapterData.subjectName,
+        className: params.class,
+      });
     } catch {
       setChapter(null);
       setError('Unable to load this chapter. Please try again later.');
     } finally {
       setIsLoading(false);
     }
-  }, [params.chapter]);
+  }, [params.chapter, params.class, params.subject]);
 
   useEffect(() => {
     getChapter();
