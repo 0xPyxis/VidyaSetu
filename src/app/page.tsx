@@ -10,7 +10,7 @@ import authFetch from '../lib/auth/authFetch';
 
 export default function Home() {
   const router = useRouter();
-  const [user, setUser] = useState({ name: "Kasturi" });
+  const [user, setUser] = useState<{ name: string } | null>(null);
 
 useEffect(() => {
   const fetchUser = async () => {
