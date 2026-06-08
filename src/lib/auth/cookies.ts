@@ -20,7 +20,7 @@ export class SetCookies {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 15 * 60,
+      // maxAge: 15 * 60,
     });
   }
 

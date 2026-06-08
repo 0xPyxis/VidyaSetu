@@ -134,9 +134,11 @@ export default function DashboardPage() {
 
       if (!active) return;
 
-      setUser(userRes.user);
+      if (userRes?.user) {
+        setUser(userRes.user);
+      }
 
-      if (userRes.firstTime) {
+      if (userRes?.firstTime) {
         router.push('/profileCompletion');
       }
 
