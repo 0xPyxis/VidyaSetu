@@ -10,8 +10,11 @@ export default function BackToTop() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPercent = (scrollTop / docHeight) * 100;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent =
+        docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
       setProgress(scrollPercent);
       setVisible(scrollTop > 300);
     };
@@ -24,22 +27,36 @@ export default function BackToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (!visible) return null;
-
   const radius = 22;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (progress / 100) * circumference;
+  const clampedProgress = Math.min(Math.max(progress, 0), 100);
+  const strokeDashoffset =
+    circumference - (clampedProgress / 100) * circumference;
+
+  if (!visible) return null;
 
   return (
     <button
       onClick={scrollToTop}
       aria-label="Back to top"
-      className="fixed bottom-8 right-8 z-50 w-14 h-14 flex items-center justify-center bg-white rounded-full shadow-lg hover:bg-gray-50 transition-all"
+      className="fixed bottom-8 right-8 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg transition-all hover:bg-gray-50"
     >
-      <svg className="absolute w-14 h-14 -rotate-90" viewBox="0 0 56 56">
-        <circle cx="28" cy="28" r={radius} fill="none" stroke="#e5e7eb" strokeWidth="3" />
+      <svg
+        className="absolute h-14 w-14 -rotate-90"
+        viewBox="0 0 56 56"
+      >
         <circle
-          cx="28" cy="28" r={radius}
+          cx="28"
+          cy="28"
+          r={radius}
+          fill="none"
+          stroke="#e5e7eb"
+          strokeWidth="3"
+        />
+        <circle
+          cx="28"
+          cy="28"
+          r={radius}
           fill="none"
           stroke="#000"
           strokeWidth="3"
@@ -48,7 +65,7 @@ export default function BackToTop() {
           strokeLinecap="round"
         />
       </svg>
-      <ArrowUp className="w-5 h-5 text-black relative z-10" />
+      <ArrowUp className="relative z-10 h-5 w-5 text-black" />
     </button>
   );
 }
