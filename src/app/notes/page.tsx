@@ -23,22 +23,15 @@ export default function NotesPage() {
 
   const filteredNotes = useMemo(() => {
     return notes.filter((note) =>
-      note.title
-        .toLowerCase()
-        .includes(search.toLowerCase())
+      note.title.toLowerCase().includes(search.toLowerCase())
     );
   }, [notes, search]);
 
   return (
     <main className="max-w-4xl mx-auto p-6">
-      <h1 className="text-4xl font-bold mb-8">
-        My Notes
-      </h1>
+      <h1 className="text-4xl font-bold mb-8">My Notes</h1>
 
-      <NotesSearch
-        value={search}
-        onChange={setSearch}
-      />
+      <NotesSearch value={search} onChange={setSearch} />
 
       <NotesList notes={filteredNotes} />
     </main>

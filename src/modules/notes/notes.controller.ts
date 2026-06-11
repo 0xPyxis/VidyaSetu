@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
 import { ZodError } from 'zod';
-
 import { SetCookies } from '@/lib/auth/cookies';
 import { NotesServices } from './notes.service';
 import { NotesApiError } from './notes.types';
 import { uploadSchema } from './notes.validator';
-import { SetCookies } from '@/lib/auth/cookies';
 
 async function getAuthenticatedUserId(): Promise<string | null> {
   const token = await SetCookies.verifyCookies();
@@ -74,7 +72,7 @@ export class NotesControllers {
     }
   }
 
-  static async list(request: Request) {
+  static async list() {
     try {
       const userId = await getAuthenticatedUserId();
 
