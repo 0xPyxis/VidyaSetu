@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface ReadingProgress {
@@ -8,6 +8,7 @@ interface ReadingProgress {
   chapterUrl: string;
   subjectName?: string;
   className?: string;
+  progressPercent: number;
   lastVisited: string;
 }
 
@@ -26,8 +27,11 @@ function getProgress(): ReadingProgress | null {
 export default function ResumeCard() {
   const router = useRouter();
   const [progress, setProgress] = useState<ReadingProgress | null>(null);
+  const initialised = useRef(false);
 
   useEffect(() => {
+    if (initialised.current) return;
+    initialised.current = true;
     const saved = getProgress();
     setProgress(saved);
   }, []);
@@ -71,7 +75,17 @@ export default function ResumeCard() {
           </svg>
         </div>
 
+        {/* Progress bar */}
+        <div className="w-full bg-accent/20 h-2 rounded-full overflow-hidden">
+          <div
+            className="bg-primary h-full transition-all duration-500 rounded-full"
+            style={{
+              width: `${Math.min(100, Math.max(0, progress.progressPercent))}%`,
+            }}
+          />
+        </div>
         <div className="flex justify-between text-[10px] text-secondary/60 font-medium">
+          <span>{progress.progressPercent}% completed</span>
           <span>Last read: {new Date(progress.lastVisited).toLocaleDateString()}</span>
         </div>
       </div>
@@ -79,9 +93,7 @@ export default function ResumeCard() {
   );
 }
 
-export function saveReadingProgress(
-  data: Omit<ReadingProgress, 'lastVisited'>
-) {
+export function saveReadingProgress(data: Omit<ReadingProgress, 'lastVisited'>) {
   if (typeof window === 'undefined') return;
   try {
     const payload: ReadingProgress = {
