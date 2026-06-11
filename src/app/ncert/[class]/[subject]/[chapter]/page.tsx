@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import ChapterContent, { type ChapterContentData } from '@/components/ChapterContent';
 import ReadingProgressBar from '@/components/ReadingProgressBar';
@@ -25,7 +25,14 @@ export default function NcertChapterPage() {
     setError(null);
     try {
       const url = `/api/ncert/chapter?chapter=${params.chapter}`;
-      const res = await authFetch({ url, options: { method: 'GET' } });
+
+      const res = await authFetch({
+        url,
+        options: {
+          method: 'GET',
+        },
+      });
+
       if (res.status !== 200 || !res.message) {
         setChapter(null);
         setError(typeof res.message === 'string' ? res.message : 'The chapter API did not return content for this request.');
