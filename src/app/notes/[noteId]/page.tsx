@@ -8,8 +8,7 @@ import type { Note } from '@/types/notes';
 
 export default function NotePage() {
   const params = useParams();
-  const [note, setNote] =
-    useState<Note | null>(null);
+  const [note, setNote] = useState<Note | null>(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -31,11 +30,7 @@ export default function NotePage() {
     loadNote();
   }, [params.noteId]);
   if (error) {
-    return (
-      <div className="p-6 text-red-600">
-        {error}
-      </div>
-    );
+    return <div className="p-6 text-red-600">{error}</div>;
   }
   if (!note) {
     return <div>Loading...</div>;

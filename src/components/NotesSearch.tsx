@@ -5,10 +5,7 @@ type NotesSearchProps = {
   onChange: (value: string) => void;
 };
 
-export default function NotesSearch({
-  value,
-  onChange,
-}: NotesSearchProps) {
+export default function NotesSearch({ value, onChange }: NotesSearchProps) {
   return (
     <input
       value={value}
