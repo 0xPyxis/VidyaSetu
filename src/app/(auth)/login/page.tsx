@@ -173,7 +173,7 @@ export default function LoginPage() {
 
             <div className="text-black flex flex-col justify-center items-center gap-6">
               <Button
-                className="text-black bg-primary-foreground md:w-[60%] w-full"
+                className="text-gray-800 bg-white border border-gray-300 hover:bg-gray-50 md:w-[60%] w-full"
                 onClick={handleLoginWithGoogle}
               >
                 <div>
